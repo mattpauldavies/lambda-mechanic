@@ -31,8 +31,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepack": "prettier --write --ignore-unknown",
-    "prepare": "npm run build"
+    "prepublishOnly": "prettier --write --ignore-unknown",
+    "prepack": "npm run build"
   },
   "lint-staged": {
     "lib/*": "prettier --write --ignore-unknown"
