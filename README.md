@@ -28,7 +28,7 @@ import { handler } from './src';
 
 const mechanic = new Mechanic(
   [
-    ['/', async () => ({ statusCode: 200, body: 'Example' })],
+    ['/', handler],
     ['/test', async () => ({ statusCode: 200, body: 'Test' })],
   ],
   { port: 3001 },
@@ -47,7 +47,7 @@ import { handler } from './src';
 
 const mechanic = new Mechanic(
   [
-    ['/', async () => ({ statusCode: 200, body: 'Example' })],
+    ['/', handler],
     ['/test', async () => ({ statusCode: 200, body: 'Test' })],
   ],
   { port: 3001 },
