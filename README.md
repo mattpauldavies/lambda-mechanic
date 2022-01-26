@@ -2,7 +2,7 @@
 
 # Lambda Mechanic
 
-Tiny NodeJS server that mocks AWS Lambda requests for local development
+Tiny NodeJS server that mocks AWS Lambda requests for local development.
 
 ## Usage
 
@@ -18,19 +18,39 @@ If you're using Typescript you can opt for `ts-node-dev`
 % npm install -d lambda-mechanic ts-node-dev
 ```
 
-Create a simple scripts called `server.js` or `server.ts` with the following content:
+Create a simple script called `server.js` with the following content:
 
 ```
-import Mechanic from 'lambda-mechanic';
+const { Mechanic } = require('lambda-mechanic');
 
 // adjust to import your Lambda handler function
 import { handler } from './src';
 
 const mechanic = new Mechanic(
   [
-    ['/', handler],
+    ['/', async () => ({ statusCode: 200, body: 'Example' })],
+    ['/test', async () => ({ statusCode: 200, body: 'Test' })],
   ],
-  { port: 3000 },
+  { port: 3001 },
+);
+
+mechanic.listen();
+```
+
+Or for Typescript, create a script called `server.ts` with the following content:
+
+```
+const { Mechanic } = require('lambda-mechanic');
+
+// adjust to import your Lambda handler function
+import { handler } from './src';
+
+const mechanic = new Mechanic(
+  [
+    ['/', async () => ({ statusCode: 200, body: 'Example' })],
+    ['/test', async () => ({ statusCode: 200, body: 'Test' })],
+  ],
+  { port: 3001 },
 );
 
 mechanic.listen();
@@ -109,8 +129,8 @@ The options interface is:
 
 ```
 interface MechanicOptions {
-  port: number;
-  headers: {
+  port?: number;
+  headers?: {
     [key: string]: string;
   };
 }
