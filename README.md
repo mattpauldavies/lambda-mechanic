@@ -40,7 +40,7 @@ mechanic.listen();
 Or for Typescript, create a script called `server.ts` with the following content:
 
 ```
-const { Mechanic } = require('lambda-mechanic');
+import { Mechanic } from 'lambda-mechanic';
 
 // adjust to import your Lambda handler function
 import { handler } from './src';
