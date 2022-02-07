@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import http, { IncomingMessage, ServerResponse } from 'http';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
