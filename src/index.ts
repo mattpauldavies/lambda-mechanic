@@ -64,6 +64,8 @@ export class Mechanic {
     const headers = this.readHeaders(req)
     const httpMethod: string = req.method || 'GET';
 
+    const url: string = req.url || '/';
+
     // mock event compatible with a real AWS Lambda event
     const mockEvent = {
       body,
@@ -71,7 +73,7 @@ export class Mechanic {
       httpMethod,
       multiValueHeaders: {},
       isBase64Encoded: false,
-      path: '',
+      path: url,
       pathParameters: null,
       queryStringParameters: null,
       multiValueQueryStringParameters: null,
@@ -99,7 +101,7 @@ export class Mechanic {
           userAgent: null,
           userArn: null,
         },
-        path: '',
+        path: url,
         stage: '',
         requestId: '',
         requestTimeEpoch: 0,
@@ -109,7 +111,6 @@ export class Mechanic {
       resource: '',
     };
   
-    const url = req.url;
     for(const [path, handler] of this.handlers) {
       if (url === path) {
         const { statusCode, body } = await handler(mockEvent);
