@@ -120,13 +120,13 @@ export class Mechanic {
     }
 
     res.writeHead(404);
-    res.end('No handler registerd to this path');
+    res.end('Lambda Mechanic: No handler registered to this path');
   }
 
   listen = (): void => {
     const server = http.createServer(this.requestListener);
     const port = this.options.port || 3000;
     server.listen(port);
-    console.log(`Listening on http://localhost:${port}`);
+    console.log(`Lambda Mechanic: Listening on http://localhost:${port}`);
   }
 }
