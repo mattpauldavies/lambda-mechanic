@@ -64,6 +64,19 @@ export class Mechanic {
     const headers = this.readHeaders(req)
     const httpMethod: string = req.method || 'GET';
 
+    const responseHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': '*',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Max-Age': 2592000,
+    };
+
+    if (httpMethod === 'OPTIONS') {
+      res.writeHead(204, responseHeaders);
+      res.end();
+      return;
+    }
+
     const url: string = req.url || '/';
 
     // mock event compatible with a real AWS Lambda event
@@ -114,13 +127,13 @@ export class Mechanic {
     for(const [path, handler] of this.handlers) {
       if (url === path) {
         const { statusCode, body } = await handler(mockEvent);
-        res.writeHead(statusCode);
+        res.writeHead(statusCode, responseHeaders);
         res.end(body);
         return;
       }
     }
 
-    res.writeHead(404);
+    res.writeHead(404, responseHeaders);
     res.end('Lambda Mechanic: No handler registered to this path');
   }
 
