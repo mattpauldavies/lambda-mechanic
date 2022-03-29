@@ -87,14 +87,22 @@ new Mechanic(
 
 The handler "tuple" describes a route and handler function pairing.
 
-Technically it is a Javascript array with a route string at the first index and a handler function at the second index.
+Technically it is a Javascript array with a route string (or regular expression) at the first index and a handler function at the second index.
 
-For example:
+String example:
 
 ```
 const handler = async () => ({ statusCode: 200, body: 'Hello World!' });
 
 const route = ['/path', handler];
+```
+
+RegEx example:
+
+```
+const handler = async () => ({ statusCode: 200, body: 'Handles everything...' });
+
+const route = [/.*/, handler];
 ```
 
 **Handler** `function`

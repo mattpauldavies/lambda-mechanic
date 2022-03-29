@@ -4,7 +4,9 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 type Hander = (event: APIGatewayProxyEvent) => Promise<APIGatewayProxyResult>;
 
-type HandlerTuple = [string, Hander];
+type Path = string | RegExp;
+
+type HandlerTuple = [Path, Hander];
 
 type Headers = { [key: string]: string };
 
@@ -125,7 +127,13 @@ export class Mechanic {
     };
   
     for(const [path, handler] of this.handlers) {
-      if (url === path) {
+      const isInvalidPath = typeof path !== 'string' && !(path instanceof RegExp);
+      if (isInvalidPath) {
+        continue;
+      }
+      const isValidStringPath = typeof path === 'string' && url === path;
+      const isValidRegExpPath = path instanceof RegExp && path.test(url);
+      if (isValidStringPath || isValidRegExpPath) {
         const { statusCode, body } = await handler(mockEvent);
         res.writeHead(statusCode, responseHeaders);
         res.end(body);
